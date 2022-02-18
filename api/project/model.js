@@ -8,12 +8,14 @@ async function findProjects() {
   const result = rows.map(row => {
     if (row.project_completed === 0) {
       return {
+        project_id: row.project_id,
         project_name: row.project_name,
         project_description: row.project_description,
         project_completed: false,
       };
     } else {
       return {
+        project_id: row.project_id,
         project_name: row.project_name,
         project_description: row.project_description,
         project_completed: true,
@@ -24,10 +26,17 @@ async function findProjects() {
   return result;
 }
 
-async function addProject(project) {
-  await db("projects").insert(project);
+async function findById(id){
+    const row = await db('projects as p')
+        .where('p.project_id', id)
+        
+    return row
+}
 
-  return findProjects();
+async function addProject(project, id) {
+  const result = await db("projects").insert(project);
+
+  return findById(result);
 }
 
 module.exports = {
