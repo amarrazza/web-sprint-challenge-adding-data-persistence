@@ -5,10 +5,17 @@ async function findResources() {
   return rows;
 }
 
-async function addResource(resource) {
-  await db("resources").insert(resource);
+async function findById(id){
+  const row = await db('resources')
+      .where('resource_id', id)
 
-  return findResources();
+  return row[0] 
+}
+
+async function addResource(resource) {
+const result = await db("resources").insert(resource);
+
+return findById(result);
 }
 
 module.exports = {

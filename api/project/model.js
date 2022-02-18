@@ -27,13 +27,13 @@ async function findProjects() {
 }
 
 async function findById(id){
-    const row = await db('projects as p')
-        .where('p.project_id', id)
-        
+    const row = await db('projects')
+        .where('project_id', id)
+
     return row
 }
 
-async function addProject(project, id) {
+async function addProject(project) {
   const result = await db("projects").insert(project);
 
   return findById(result);
